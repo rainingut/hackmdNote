@@ -36,3 +36,7 @@ frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/rainingut/pen/ZEOLvJa'>next page</a> by Rainy
   (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
+<iframe height="265" style="width: 100%;" scrolling="no" title="next page" src="https://codepen.io/rainingut/embed/BazWBWZ?height=265&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/BazWBWZ'>next page</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
