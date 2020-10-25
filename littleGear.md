@@ -1,4 +1,5 @@
 # 小元件
+> 在「iframe」內連結「embed/」後，加上「preview/」，使codepen點擊後開啟Result。
 # 按鈕
 ## Toggle Button
 <iframe height="265" style="width: 100%;" scrolling="no" title="Toggle Button" src="https://codepen.io/rainingut/embed/pobRvKd?height=265&theme-id=dark&default-tab=css,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
