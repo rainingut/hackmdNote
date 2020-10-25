@@ -23,7 +23,15 @@ frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-# 分頁
+
+# 濾鏡
+包含jquery拖曳功能
+<iframe height="265" style="width: 100%;" scrolling="no" title="fork - drag CSS filter" src="https://codepen.io/rainingut/embed/NWrpKJz?height=265&theme-id=dark&default-tab=css,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/NWrpKJz'>fork - drag CSS filter</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+# 功能向
 ## 區域上下頁
 使用CSS控制顯示
 僅上下頁
@@ -39,5 +47,24 @@ frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
 </iframe>
 <iframe height="265" style="width: 100%;" scrolling="no" title="next page" src="https://codepen.io/rainingut/embed/BazWBWZ?height=265&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/rainingut/pen/BazWBWZ'>next page</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+## 複製 > 增加 | 刪除 
+<iframe height="265" style="width: 100%;" scrolling="no" title="clone it" src="https://codepen.io/rainingut/embed/XWKMWZK?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/XWKMWZK'>clone it</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+## 拖曳
+水平拖曳
+<iframe height="265" style="width: 100%;" scrolling="no" title="drag-horizontal" src="https://codepen.io/rainingut/embed/rNLyNyO?height=265&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/rNLyNyO'>drag-horizontal</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+垂直拖曳
+<iframe height="265" style="width: 100%;" scrolling="no" title="drag-vertical" src="https://codepen.io/rainingut/embed/BazWawG?height=265&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/BazWawG'>drag-vertical</a> by Rainy
   (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
