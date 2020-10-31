@@ -73,7 +73,7 @@
           return inven.year >= 1500 && inven.year < 1600;
     })
       ```
-2. map－針對每個內容產生新的動作（做一個新陣列）
+2. map－針對每個內容產生新的動作（做一個新陣列）  
    forEach－針對每個內容產生新的動作（對原有陣列做變化）
    ```javascript
    let ans2 = inventors.map((inven)=>`${inven.first}  ${inven.last}`)
@@ -392,4 +392,377 @@ See the Pen <a href='https://codepen.io/rainingut/pen/XWKRbRP'>js30 - scroll</a>
 
 ---
 
-# day14 - console 傳值傳址
+# day14 - console reference and copy [alex](https://youtu.be/sxe-oahUARI?t=705)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - console - Reference N copy" src="https://codepen.io/rainingut/embed/preview/XWKaKqQ?height=265&theme-id=light&default-tab=js" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/XWKaKqQ'>js30 - console - Reference N copy</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* 字串 | 數值 | 布林
+  ```javascript
+  let g = 'A'
+  let h = 'A'
+  let i = 'A'
+  h="B",i="C",g+=h,g+=i
+  console.log(g,h,i)//ABC B C
+  ```
+  |記憶體  |  值   | 變數名  |
+  |-------|-------|-------- |
+  |  0x1  | "A"   |   -     |
+  |  0x2  | 0x8   |   g     |
+  |  0x3  | 0x5   |   h     |
+  |  0x4  | 0x6   |   i     |
+  |  0x5  | "B"   |   -     |
+  |  0x6  | "C"   |   -     |
+  |  0x7  | "AB"  |   -     |
+  |  0x8  | "ABC" |   -     |
+  > 示意圖：這是最後的結果，不知道A甚麼時候會被記憶體釋放..
+* 陣列 - reference
+  ```javascript
+  const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+  let players2 = players;       // 複製陣列 '沒有真正複製'
+  players2[0] = `alex`          // 更新陣列
+  console.log(players,players2) // 兩個都被更新
+  ```
+  | 記憶體 |  值   | 變數名   |
+  |-------|-------|--------  |
+  |  0x1  | [...] |   -      |
+  |  0x2  | 0x1   | players  | 
+  |  0x3  | 0x1   | players2 |
+  > 示意圖：players2 是用0x1裡面的值變更，所以players的值(0x1)自然會是一樣的..  
+      為什麼兩個陣列都被更新？因為這不是「複製」，他們**對應到的是同一個陣列**
+
+* 陣列複製的三種方法
+  * ``.slice()``
+  * ``[].cnocat()``
+  * ES6解構``[...]``
+  ```javascript
+  const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+  let players3 = players.slice()
+  let players4 = [].concat(players)
+  let players5 = [...players]
+  ```
+  | 記憶體 |  值     | 變數名   |
+  |-------|-------  |--------  |
+  |  0x1  | [...p1] |   -      |
+  |  0x2  | 0x1     | players  | 
+  |  0x3  | [...p2] |   -      |    
+  |  0x4  | 0x3     | players3 |    
+  * 不過下面這種,還是會修改到值
+  ```javascript
+  function createObj(name){
+    return {name};
+  }
+  let p1 = createObj('alex')
+  let p2 = createObj('sara')
+  let p3 = createObj('mary')
+  let p4 = createObj('john')
+  let f1 = [p1,p2,p3,p4]
+  let f2 = f1.slice()
+  ```
+  
+  |記憶體  |  值           | 變數名  |
+  |-------|---------------|-------- |
+  |  0x1  | {alex}        |   -     |
+  |  0x2  | 0x1           |   p1    |
+  |  0x3  | {sara}        |   -     |
+  |  0x4  | 0x3           |   p2    |
+  |  0x5  | {mary}        |   -     |
+  |  0x6  | 0x5           |   p3    |
+  |  0x7  | {john}        |   -     |
+  |  0x8  | 0x7           |   p4    |
+  |  0x9  | [p1,p2,p3,p4] |   -     |
+  |  0x10 | 0x9           |   f1    |
+  |  0x11 | [p1,p2,p3,p4] |   -     |
+  |  0x12 | 0x11          |   f2    |
+  >記憶體的東西不可變，但**記憶體內的「物件內容」可以更動**  
+  >f2[0].name  改的是 0x1 的內容，也就是說 0x1, 0x2, 0x9, 0x10, 0x11, 0x12 都會被變更
+* 物件也是相似的觀念
+  ```javascript
+  const person = {
+    name: 'WesBos',
+    age: 80,
+    say: function(){console.log('hi')}
+  };
+
+  let person2 = JSON.parse(JSON.stringify(person))
+  ```
+  > ⚠注意：使用``JSON``，function會被忽略，故沒有 ❌person2.say()
+  
+* 要如何複製function？ 
+  用 ``call`` | ``apply`` | 閉包
+  * call | apply
+  ```javascript
+  let fn1 = function(){return console.log('bad guy')}
+  let fn2 = function(){
+    fn1.apply(this,arguments)
+  }
+  ```
+  * function clone
+  ```javascript
+  Function.prototype.clone= function(){
+    var fct = this;
+    var clone = function(){
+      return fct.apply(this,arguments)
+    }
+    // clone.prototype = fct.prototype
+    // for (property in fct){
+    //   if( fct.hasOwnProperty(property) && property!=="prototype"){
+    //     clone[property] = fct[property]
+    //   }
+    // }
+    return clone
+  }
+  
+  let fn3 = fn1.clone();
+  ```
+  > 上面的註解``//``拿掉可以clone得更完整，不過目前這樣就可以複製function了
+
+---  
+
+# day15 - localStorage - to do list[alex](https://youtu.be/gWpBTV7ihE4?t=1388)
+[相關文章](https://ithelp.ithome.com.tw/articles/10232254)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - localStorage - to do list" src="https://codepen.io/rainingut/embed/KKMXQJg?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/KKMXQJg'>js30 - localStorage - to do list</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* Local storage 大小約5-10M
+  * 本機端儲存庫，格式key : value
+  * 只能記憶單純資料類型數值字串等
+  * 關掉瀏覽器後不會消失，只能手動清除
+
+* cookie 大小約4kb
+  * 運用例如驗證 | 登入 | 購物車 等
+  * server處理完資料不儲存我們所做的紀錄，是由cookie紀錄  
+    下次造訪網頁時，cookie自動發送給server端
+
+* Session storage
+  * ``session``是server端儲存庫；  
+    ``session storage``是本機端的儲存庫
+  * 搭配cookie使用
+  * 生命周期較短，關掉瀏覽器時，資料就會被清空
+
+--- 
+
+# day16 - mousemove N offset [alex](https://youtu.be/fa9Lk2KnARY?t=1000)
+https://ithelp.ithome.com.tw/articles/10232269
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - mousemove N offset" src="https://codepen.io/rainingut/embed/pobLwwv?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/pobLwwv'>js30 - mousemove N offset</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* ``<h1 contenteditable></h1>``  
+  ``contenteditable``可編輯，就像input:text
+* Event 的屬性：
+  * offsetX：滑鼠到外層容器的距離。
+  * offsetY：滑鼠到外層容器的距離。
+* Element 的屬性：
+  * offsetWidth ：該 element 的寬。
+  * offsetHeight：該 element 的高。
+  * offsetLeft：該 element 到 offsetParent 的距離。
+  * offsetTop ：該 element 到 offsetParent 的距離。
+```javascript
+let x = Math.floor((offsetX / this.offsetWidth) * length * 2 - length);
+//(offsetX / this.offsetWidth) ==> 0~1
+//(offsetX / this.offsetWidth) * length ==> 0~100  (length設定值設為100)
+//(offsetX / this.offsetWidth) * length * 2 ==> 0~200
+//(offsetX / this.offsetWidth) * length * 2 - length ==> -100~100
+```
+
+---
+
+# day17 - sort N RegExp [alex](https://youtu.be/_fG7bQTSQ6M?t=943)
+https://ithelp.ithome.com.tw/articles/10232358
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - sort" src="https://codepen.io/rainingut/embed/ExyEbKy?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/ExyEbKy'>js30 - sort</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* 正規表示法``/^(a |an |the )/i``  
+  (a空白開頭 或 an空白開頭 或 the空白開頭 不分大小寫)
+* ES6解構(複製陣列)``[...bands]``
+* 大小排序
+  ``
+  [...bands].sort((a,b)=>   strip(a) > strip(b) ? 1 : -1 );
+  ``
+* 渲染到畫面上
+  ```javascript
+  document.getElementById("bands").innerHTML = sortBands
+    .map(band=>`<li>${band}</li>`)//map跟forEach很像.但是新的陣列
+    .join("")
+  ```
+
+---
+
+# day18 - [alex](https://youtu.be/fOZGTOTKHXs?t=1710)
+[loupe](http://latentflip.com/loupe/)
+https://ithelp.ithome.com.tw/articles/10232374
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - hor:min:sec" src="https://codepen.io/rainingut/embed/WNxzPvZ?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/WNxzPvZ'>js30 - hor:min:sec</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* ``querySelectorAll`` ==> 「NodeList」「arraylike」是一個「類似陣列」的清單  
+  可以用的只有「length」「forEach」。
+* 可以使用四種方法將querySelectorAll轉為陣列，使用.map()
+  * ``Array.from(li).map(item => item)``
+  * ``[...li].map(item => item)``
+  * ``[].map.apply(li, [item => item])``
+  * ``[].map.call(li, item => item)``
+* 案例中**加總**所有分秒
+  ```javascript
+  let liSecs = [...liTime]                
+   .map(item => item.dataset.time)       
+   .map(time => {                        
+     let [min, sec] = time.split(":")                
+     return min * 60 + sec *1            
+  })
+   .reduce((prev,next) => prev + next, 0)
+  ```
+* 拆分時:分:秒
+  ```javascript
+  let hor = Math.floor( liSecs / 3600 )
+  let min = Math.floor((liSecs % 3600 ) / 60)
+  let sec = liSecs % 60
+  ```
+
+--- 
+
+# day19 - webcam [alex](https://youtu.be/1oOxMR_LPb0?t=340)
+https://ithelp.ithome.com.tw/articles/10232455
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30  - webcam" src="https://codepen.io/rainingut/embed/preview/rNLdgGR?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/rNLdgGR'>js30  - webcam</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* 事件聆聽``canplay``
+* 設定鏡頭播放
+  * ``navigator.mediaDevices``：可用來串聯與麥克風、攝影機或共享螢幕的連結。
+  * ``getUserMedia()``：是否允許開啟連結至其設備（只有兩個``vedio``跟``audio``）。
+  * 上方會返回**promise物件**，所以要用``.then()``返回``MediaStream物件``
+  * 處理vedio來源：``video.srcObject = localMediaStream``
+  * 須考量到其他瀏覽器是否能正常播放，故需要``try``與``catch``
+* canvas渲染 (setInterval)
+  ```javascript
+  const canvas = document.querySelector('.photo');
+  const ctx = canvas.getContext('2d');
+  ```
+  * ``ctx.drawImage(來源,x1,y1,寬,高)``：  
+    將圖像，畫布或視頻繪製到畫布上。
+  * ``ctx.getImageData(x1,y1,寬,高)``：  
+    (複製)取出相片每個像素rgba，且會返回一個ImageData物件。
+  * ``ctx.putImageData(imageData,x,y)``:  
+    與``getImageData``👆是一組的  
+    把某區域的像素值呈現在指定的位址上
+* canvas截圖
+  ```javascript
+  function takePhoto(){
+      const data = canvas.toDataURL('image/jpeg');
+      const link = document.createElement('a')
+      link.href  = data
+      link.setAttribute('download','handsome')
+      link.innerHTML = `<img src="${data}" alt="mememe">`
+      strip.insertBefore(link,strip.firstChild)
+   }
+  ```
+  * ``canvas.toDataURL(type, encoderOptions)``:  
+    這個語法可以把圖片轉成 base64，回傳含有圖像和參數設置特定格式的 data URIs (預設 PNG).，回傳的圖像解析度為 96 dpi。
+* canvas濾鏡效果  
+  以下0,1,2,3分別代表red, green, blue, alpha色板。
+  * 紅色板
+    ```javascript
+    function redEffect(pixels){
+      for(let i=0;i< pixels.data.length;i+=4){
+        pixels.data[i + 0] = pixels.data[i + 0] + 200 //RED
+        pixels.data[i + 1] = pixels.data[i + 1] -  50 //Green
+        pixels.data[i + 2] = pixels.data[i + 2] + 0.5 //Blue
+      }
+      return pixels
+    }
+    ```
+  * 三色板錯位
+    ```javascript
+    function rgbSplit(pixels){//把目標色板放到別的色板
+      for(let i=0;i< pixels.data.length;i+=4){
+        pixels.data[i - 150] = pixels.data[i + 0] + 200 //RED
+        pixels.data[i + 500] = pixels.data[i + 1] -  50 //Green
+        pixels.data[i - 550] = pixels.data[i + 2] + 0.5 //Blue
+      }
+      return pixels
+    }
+    ```
+  * 綠背景去背
+    ```javascript
+    function greenScreen(pixels){
+      const levels = {}
+      document.querySelectorAll('.rgb input').forEach(input => {
+        levels[input.name] = input.value
+      })
+      for(let i=0;i<pixels.data.length;i+=4){
+        red = pixels.data[i+0];
+        gre = pixels.data[i+1];
+        blu = pixels.data[i+2];
+        alp = pixels.data[i+3];
+        if(
+          red >= levels.rmin &&
+          gre >= levels.gmin &&
+          blu >= levels.bmin &&
+          red <= levels.rmax &&
+          gre <= levels.gmax &&
+          blu <= levels.bmax 
+        ){
+          pixels.data[i+3] =0; //get rid of green 
+        }
+      }
+      return pixels
+    }
+    ```
+
+--- 
+
+# day20 - [alex](https://youtu.be/TUgz-m-EMKg?t=234)
+https://ithelp.ithome.com.tw/articles/10232494
+
+---
+
+# day21 - [alex](https://youtu.be/Sm-HY8VyaH4?t=479)
+https://ithelp.ithome.com.tw/articles/10232562
+
+---
+
+# day22 - [alex](https://youtu.be/ttqfJsIxwJk?t=463)
+
+--- 
+
+# day23 - [alex](https://youtu.be/l4OZUzdCMso?t=500)
+https://ithelp.ithome.com.tw/articles/10232664
+
+---
+
+# day24 - [alex](https://youtu.be/GXePjBdEr6c?t=669)
+https://ithelp.ithome.com.tw/articles/10245289
+
+---
+
+# day25 - [alex](https://youtu.be/wfTR8GJu05Q?t=478)
+
+---
+
+# day26 - [alex](https://youtu.be/ndcl4hiyhQY?t=332)
+
+---
+
+# day27 - [alex](https://youtu.be/Opw1XH2eGb4?t=523)
+
+---
+
+# day28 - [alex](https://youtu.be/BOoebERng18)
+
+---
+
+# day29  - [alex](https://youtu.be/ucqq20gVBic)
+
+---
+
+# day30 - [alex](https://youtu.be/ojgYzPffW0E?t=255)
