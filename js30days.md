@@ -860,8 +860,64 @@ https://ithelp.ithome.com.tw/articles/10232562
 
 ---
 
-# day25 - [alex](https://youtu.be/wfTR8GJu05Q?t=478)
+# day25 - addEventListener [alex](https://youtu.be/wfTR8GJu05Q?t=478)
+[codepen](https://codepen.io/rainingut/pen/abZGpjJ) | [解析](https://ithelp.ithome.com.tw/articles/10197036) | [alex codepen](https://codepen.io/achen224/pen/QWWojpJ)
+* addEventListener(參數1,參數2,參數3)
+  * 參數1：監聽事件名稱字串，``如click``, ``change``等。
+  * 參數2：監聽事件發生時，負責接收事件物件的物件，通常為函式(function)。
+  * 參數3：選填，  
+    預設``{ capture:false, once:false, passive:false}``
+    * ``capture``捕獲
+    * ``once``只監聽一次
+    * ``passive``無法使用``e.preventDefault()``  
+      就是去除DOM原有的功能
+    * 如果只給一個值「false」是表示「capture:false」
 
+* 案例一``.one>.two>.three``  
+  JS處理事件的兩種模式
+  1. capture(捕獲)模式 ：從外層進去  
+    ``.one👉.two👉.three``
+  2. bubbling(氣泡)模式：從裡層出去  
+    ``.one👈.two👈.three``
+    如果點了最裡面的``.three``，``.two .one``也會被觸發  
+  * 防止capture往下 | 防止bubbling往上，可使用``e.stopPropagation()``
+* 案例二
+  ```xml
+  <ul>
+    <li><a href="#">hello1</a></li>
+    <li><a href="#">hello2</a></li>
+    <li><a href="#">hello3</a></li>
+  </ul>
+  ```
+  * binding綁定，就是我們平常針對單一物件做事件聆聽、事件處理。
+      ```javascript
+      let as = document.querySelectorAll('ul a')
+      as.forEach(a=>a.addEventListener('click',asHandler))
+      function asHandler(e){
+        e.preventDefault();
+      }
+      ```
+  * delegate委派，針對父層做事件聆聽，再對其子層做事件處理。
+    ```javascript
+    let ul = document.querySelector('ul')
+    ul.addEventListener('click',ulhandler)
+    function ulhandler(e){
+      // console.log(e.composedPath())//按下去時，JS會捕獲那些物件
+      // console.log(e.target,e.currentTarget)
+      if(e.target.nodeName ==='A'){
+        e.preventDefault();
+        console.log('Delegate: BINGO')
+      }
+    }
+    ```
+    > 注意：找``nodeName``要用全大寫  
+    
+    | 點擊對象 | target | currentTarget |
+    |---------|---------|---------------|
+    |    ul   |    ul   |       ul      |
+    |    li   |    li   |       ul      |
+    |     a   |     a   |       ul      |
+    
 ---
 
 # day26 - [alex](https://youtu.be/ndcl4hiyhQY?t=332)
