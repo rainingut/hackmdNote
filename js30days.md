@@ -595,7 +595,7 @@ https://ithelp.ithome.com.tw/articles/10232358
 
 ---
 
-# day18 - [alex](https://youtu.be/fOZGTOTKHXs?t=1710)
+# day18 - video total time [alex](https://youtu.be/fOZGTOTKHXs?t=1710)
 [loupe](http://latentflip.com/loupe/)
 https://ithelp.ithome.com.tw/articles/10232374
 <iframe height="265" style="width: 100%;" scrolling="no" title="js30 - hor:min:sec" src="https://codepen.io/rainingut/embed/WNxzPvZ?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
@@ -721,7 +721,7 @@ https://ithelp.ithome.com.tw/articles/10232455
 
 --- 
 
-# day20 - [alex](https://youtu.be/TUgz-m-EMKg?t=588)
+# day20 - speak to text [alex](https://youtu.be/TUgz-m-EMKg?t=588)
 https://ithelp.ithome.com.tw/articles/10232494
 <iframe height="265" style="width: 100%;" scrolling="no" title="js30 - speech" src="https://codepen.io/rainingut/embed/preview/GRqdpEd?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/rainingut/pen/GRqdpEd'>js30 - speech</a> by Rainy
@@ -782,22 +782,81 @@ https://ithelp.ithome.com.tw/articles/10232494
 
 ---
 
-# day21 - [alex](https://youtu.be/Sm-HY8VyaH4?t=479)
+# day21 - geolocation [alex](https://youtu.be/Sm-HY8VyaH4?t=479)
 https://ithelp.ithome.com.tw/articles/10232562
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - geolocation" src="https://codepen.io/rainingut/embed/preview/pobVjXg?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/pobVjXg'>js30 - geolocation</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* ``Geolocation API``：取得目前位置的經緯度、方向、速度等
+  * ``navigator.geolocation.getCurrentPosition()``  
+    只會觸發一次
+  * ``navigator.geolocation.watchPosition()``  
+    一直監看著移動的位置，像setInterval
+  * ``navigator.geolocation.clearWatch()``   
+    這個函式是用來取消，像clearInterval ``.watchPosition()``
+* 屬性：
+  * ``coords.heading``：北方為0度順時針計算
+  * ``coords.speed``：目前的速度
 
 ---
 
-# day22 - [alex](https://youtu.be/ttqfJsIxwJk?t=463)
+# day22 - along link [alex](https://youtu.be/ttqfJsIxwJk?t=463)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - along link" src="https://codepen.io/rainingut/embed/xxOjZJa?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/xxOjZJa'>js30 - along link</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* [``getBoundingClientRect()``](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect)相對於視窗的座標  
+  包含了x/y/width/height/top/right/bottom/left 等屬性。  
+  捆動卷軸會產生不一樣的座標位置，加上卷軸滾動多少的位置。
+  * ``let top = `${rect.top  + window.scrollY}px` ``
+
 
 --- 
 
-# day23 - [alex](https://youtu.be/l4OZUzdCMso?t=500)
-https://ithelp.ithome.com.tw/articles/10232664
+# day23 - text to speech[alex](https://youtu.be/l4OZUzdCMso?t=500)
+[解析1](https://ithelp.ithome.com.tw/articles/10232664) | [解析2](https://ithelp.ithome.com.tw/articles/10196799)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - text 2speech" src="https://codepen.io/rainingut/embed/qBNYNEN?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/qBNYNEN'>js30 - text 2speech</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* ``SpeechSynthesisUtterance``  
+  Web Speech API 中代表一發音的需求，包含語言、音調、聲音、速率等資訊。
+  * 屬性：
+    * ``.lang``語言
+    * ``.pitch``音調
+    * ``.rate``速度
+    * ``.text``發音文字
+    * ``.voice``聲音
+    * ``.volume``音量
+  * 事件：
+    * ``.onstart``開始發音觸發此事件
+    * ``.onend``完成整句發音觸發此事件
+    * ``.onboundary``單字片語間停頓觸發此事件
+    * ``.onpause``發音暫停時觸發此事件
+    * ``.onresume``被繼續播放時觸發此事件
+* [``speechSynthesis``](https://developer.mozilla.org/zh-CN/docs/Web/API/SpeechSynthesis)  
+  取得可使用的語音合成資訊，並播放或暫停發音等相關功能。
+  * 事件(唯一)－``voiceschaged``
+  * 方法：
+    * ``.getVoices()``取得一陣列，包含目前所有``SpeechSynthesisVoice``物件裡所有發音資訊
+    * ``.speak()``將一段發音加入發音庫，當前面的發音皆播放完成後，就會播放此發音。
+    * ``.cancel()``移除所有的發音資訊。
+    * ``.pause()``將 ``SpeechSynthesis`` 物件改為暫停的狀態。
+    * ``.resume()``取消 ``SpeechSynthesis ``物件的暫停狀態。
 
 ---
 
-# day24 - [alex](https://youtu.be/GXePjBdEr6c?t=669)
-https://ithelp.ithome.com.tw/articles/10245289
+# day24 - sticky nav [alex](https://youtu.be/GXePjBdEr6c?t=669)
+[解析1](https://ithelp.ithome.com.tw/articles/10245289) | [解析2](https://ithelp.ithome.com.tw/articles/10196913)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - sticky nav" src="https://codepen.io/rainingut/embed/GRqdjbp?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/GRqdjbp'>js30 - sticky nav</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
 
 ---
 
