@@ -721,8 +721,64 @@ https://ithelp.ithome.com.tw/articles/10232455
 
 --- 
 
-# day20 - [alex](https://youtu.be/TUgz-m-EMKg?t=234)
+# day20 - [alex](https://youtu.be/TUgz-m-EMKg?t=588)
 https://ithelp.ithome.com.tw/articles/10232494
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - speech" src="https://codepen.io/rainingut/embed/preview/GRqdpEd?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/GRqdpEd'>js30 - speech</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* Web Speech API：
+  ```javascript
+  //兼容性 chorom | firefox
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+  //建立一個speechRecognition物件
+  const recognition = new SpeechRecognition();
+  ```
+  * ``Speech Synthesis``，文字轉語音
+  * [``Speech Recognition``](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognitionResult)，語音轉文字
+* Speech Recognition
+  ```javascript
+  recognition.interimResults = true;
+  ```
+  * [``interimResults``](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/interimResults)是否要連續觸發  
+    ``true``一直判斷聲音，一個個字會打出來；  
+    ``false``預設,講完才判斷，且會一次打出來整句
+  * ``.lang``判斷語言
+    ```javascript
+    recognition.lang = 'en-US';
+    // recognition.lang = 'zh-TW';
+    ```
+  * 獲取語音辨識文字
+    ```javascript
+     recognition.addEventListener('result', e => {
+      const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+    });
+    ```
+  * 可將指定文字做變化🦄
+    ```javascript
+    const unicornScript = transcript.replace(/unicorn |uniqlo /gi, '🦄'); 
+    ```
+  * [``textContent``](https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/535058/#outline__2)：設定或是獲取某個元素內所有文字內容  
+    ```javascript
+    p.textContent = unicornScript  
+    ```
+  * ``.isFinal``當偵測語音辨識已經結束，就渲染到畫面上
+    ```javascript
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+    ```
+  * ``.start()``啟動語音辨識
+    ```javascript
+    recognition.start();
+    ```
+
 
 ---
 
