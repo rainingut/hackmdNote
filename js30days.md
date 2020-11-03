@@ -920,20 +920,134 @@ https://ithelp.ithome.com.tw/articles/10232562
     
 ---
 
-# day26 - [alex](https://youtu.be/ndcl4hiyhQY?t=332)
+# day26 - nav hover [alex](https://youtu.be/ndcl4hiyhQY?t=332)
+[解析](https://ithelp.ithome.com.tw/articles/10197153)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - nav hover" src="https://codepen.io/rainingut/embed/MWeGOPw?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/MWeGOPw'>js30 - nav hover</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+主要呈現效果：hover（``mouseenter`` + ``mouseleave``）
+1. 先後讓子項加上CSS「display:block」以及「opacity:1」。  
+   為什麼要拆解這兩個？是為了做出動畫|轉場效果，如果它們同時加上就只有閃現的感覺  
+   react與angular的動畫|轉場效果也是這麼處理的  
+   ``.classList.add()``、``.classList.remove()``、``.setTimeout()``
+2. 抓到子項，計算子項寬高，讓白背景符合寬高並放在其後方。處理nav父層的offset  
+   ``.getBoundingClientRect()``
+3. 微調，處理hover過於快速的異常(``setTimeout``增加條件)
+* 內部的function與箭頭函式  
+  此案例中``setTimeout``的``functioin``裡面的``this``指向的是「window」👇
+  ```javascript 
+  const triggers = document.querySelectorAll('.cool > li')
+    .forEach(dom=>dom.addEventListener('mouseenter',meEnter))
+    
+  function meEnter(){//🟡
+    setTimeout(function(){console.log(this)},150)
+  }
+  ```
+  以下的箭頭函式，``this``會**繼承**(**inherit**)父層function的``this``（這裡結果是「.cool > li」）
+  ```javascript
+  const triggers = document.querySelectorAll('.cool > li')
+    .forEach(dom=>dom.addEventListener('mouseenter',meEnter))
+    
+  function meEnter(){//🟡
+    setTimeout(() => console.log(this),150)
+  }
+  ```
+  
+---
+
+# day27 - drop grab [alex](https://youtu.be/Opw1XH2eGb4?t=523)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - grab drop" src="https://codepen.io/rainingut/embed/XWKqZEG?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/XWKqZEG'>js30 - grab drop</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* 滑鼠事件
+  * ``mousedown``  
+    ✅被按下；❌在移動  
+    設定滑鼠按下的座標位置  
+    計算捲軸往左捲了多少  
+  * ``mousemove``
+    如果❌被按下，則return  
+    ✅在移動  
+    設定滑鼠滑動時的座標位置  
+    讓物件移動位置 等於 座標移動數字
+  * ``mouseup``  
+    ❌被按下
+  * ``mouseleave``  
+    ❌被按下
+* 如果物件內有包a錨點，設定事件聆聽功能「click」，阻止預設事件。
+---
+
+# day28 - playbackRate [alex](https://youtu.be/BOoebERng18)
+[解析](https://ithelp.ithome.com.tw/articles/10197341)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - playbackRate" src="https://codepen.io/rainingut/embed/MWeGVLa?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/MWeGVLa'>js30 - playbackRate</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* 使用事件``mouseover``
+* [``.toFix(n)``](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)：將數字四捨五入到小數點第 n 位，並保持這個格式。
 
 ---
 
-# day27 - [alex](https://youtu.be/Opw1XH2eGb4?t=523)
+# day29  - timer [alex](https://youtu.be/ucqq20gVBic)
+[解析](https://ithelp.ithome.com.tw/articles/10197456)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - timer" src="https://codepen.io/rainingut/embed/bGeMmRR?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/bGeMmRR'>js30 - timer</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+* function命名   
+    1. ``var 名字 = function(){}``  
+       可能會有邏輯判斷的困難，這樣的寫法比較不建議。  
+       該function會被拉升(hoisting)(提升到程式碼最頂端)
+    2. ``function 名字(){}``  
+       直接宣告。這樣的寫法，function會被提升到前面；  
+       若eventListnner寫在該function上方，可以被讀取。
+    3. ``const 名字 = function(){}``  
+       附值宣告。  
+       若eventListnner寫在該function上方，**不能**被讀取。
+* 事件聆聽``submit``包含``click``
+和``enter``
+* form表單內的物件，可以透過「.」抓取該物件的``name``，例如：
+  ```xml
+  <form>
+      <input name="aka" />
+  </form>
+  ```
+  ```javascript
+  const fomr = document.forms[0]
+  const input = fomr.aka.value
+  ```
+* 我自己用的是``.padStart(字數,'補字串')``XD  
+  我希望是兩位數地呈現，不滿兩位數，左邊就補零（但要將數值先轉為字串）
+  ```javascript
+  const minutes = String(enddate.getMinutes()).padStart(2,'0')
+  ```
 
 ---
 
-# day28 - [alex](https://youtu.be/BOoebERng18)
+# day30 - game [alex](https://youtu.be/ojgYzPffW0E?t=255)
+[解析](https://ithelp.ithome.com.tw/articles/10197557)
+<iframe height="265" style="width: 100%;" scrolling="no" title="js30 - game" src="https://codepen.io/rainingut/embed/GRqdYWZ?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/GRqdYWZ'>js30 - game</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
----
-
-# day29  - [alex](https://youtu.be/ucqq20gVBic)
-
----
-
-# day30 - [alex](https://youtu.be/ojgYzPffW0E?t=255)
+* Proxy代理人  
+  中間人的概念。透過proxy幫我處理物件、紀錄資料。  
+  在day29案例中，透過資料的狀態去決定物件是否呈現；而非使用class去判斷物件是否要出現。  
+  例如：
+  ```javascript
+  let obj = {a:false,b:true}
+  let help = new Proxy(obj,{
+    get(target,key){
+      return targe[key]
+    },
+    set(target,key,value){
+      target[key] = value
+    }    
+  })
+  ```
