@@ -16,12 +16,7 @@ frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-# 上傳圖片
-multiple imgs on div
-<iframe height="265" style="width: 100%;" scrolling="no" title="multiple imgs on div" src="https://codepen.io/rainingut/embed/QWExVBj?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/rainingut/pen/QWExVBj'>multiple imgs on div</a> by Rainy
-  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+
 
 
 
@@ -93,3 +88,20 @@ to do list(Local Storage)
   See the Pen <a href='https://codepen.io/rainingut/pen/BazWawG'>drag-vertical</a> by Rainy
   (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
+
+## 上傳圖片
+multiple imgs on div
+<iframe height="265" style="width: 100%;" scrolling="no" title="multiple imgs on div" src="https://codepen.io/rainingut/embed/QWExVBj?height=265&theme-id=dark&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/rainingut/pen/QWExVBj'>multiple imgs on div</a> by Rainy
+  (<a href='https://codepen.io/rainingut'>@rainingut</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+
+# 套件
+## dat.GUI
+* [sprites展示360](https://codepen.io/_massimo/pen/zVYVNb)
+
+# 其他
+* [transform matrix](https://codepen.io/rainingut/pen/wvWxmPp)
+* [Sprites(多keyframe用js控制)](https://codepen.io/rainingut/pen/NWrOdbp)
+* [Sprites(一keyframe)純CSS](https://codepen.io/rainingut/pen/gOMdyRe)
